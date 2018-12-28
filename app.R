@@ -164,7 +164,10 @@ ui <- fluidPage(
                            '#FF7F00', palette = 'limited'),#for changing colour of areas (mid)
                colourInput(inputId = 'areaLowColourSelect', label = 'Low',
                            showColour = 'background',#'both',#
-                           '#008B00', palette = 'limited')#for changing colour of areas (low)
+                           '#008B00', palette = 'limited'),#for changing colour of areas (low)
+               colourInput(inputId = 'areaNAColourSelect', label = 'NA',
+                           showColour = 'background',#'both',#
+                           '#666666', palette = 'limited')#for changing colour of areas (NA)
     ),
     
     inputPanel(tags$h4('Borders'),
@@ -229,6 +232,8 @@ server <- function(input, output) {
     # polish map
     map_publish = map +
       tm_fill(col='Colour', title=input$legendText, 
+              colorNA = input$areaNAColourSelect,
+              legend.reverse = TRUE,
               style='cont', palette=c(input$areaLowColourSelect,
                                       input$areaMidColourSelect,
                                       input$areaHighColourSelect)) +
