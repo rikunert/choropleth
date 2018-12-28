@@ -258,7 +258,7 @@ server <- function(input, output) {
         tm_text("Abbr",
                 col='grey30',
                 print.tiny = T,
-                auto.placement = F)
+                auto.placement = T)
     }
     
     
