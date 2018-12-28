@@ -84,6 +84,7 @@ DF <- data.frame(name_cartogram = c('Mecklenburg-Vorpommern',
                           2500000,
                           661000,
                           1788000,
+                          6066000,
                           1639000,
                           7914000,
                           17837000,
@@ -92,8 +93,7 @@ DF <- data.frame(name_cartogram = c('Mecklenburg-Vorpommern',
                           4143000,
                           2331000,
                           2833000,
-                          2231000,
-                          6066000),# population 
+                          2231000),# population 
                  Colour = c(1:16), 
                  stringsAsFactors = FALSE)
 
