@@ -165,7 +165,7 @@ ui <- fluidPage(
                colourInput(inputId = 'areaLowColourSelect', label = 'Low',
                            showColour = 'background',#'both',#
                            '#008B00', palette = 'limited'),#for changing colour of areas (low)
-               colourInput(inputId = 'areaNAColourSelect', label = 'NA',
+               colourInput(inputId = 'areaNAColourSelect', label = 'Missing data',
                            showColour = 'background',#'both',#
                            '#666666', palette = 'limited')#for changing colour of areas (NA)
     ),
