@@ -77,6 +77,7 @@ DF <- data.frame(name_cartogram = c('Mecklenburg-Vorpommern',
                            'Schleswig-Holstein',
                            'Thueringen',
                            'Hessen'), 
+                 Abbr = c('BW','BY','BE','BB','HB','HH','MV','NI','NW','RP','SL','SN','ST','SH','TH','HE'),
                  Size = c(10755000,
                           12542000,
                           3469000,
@@ -136,9 +137,9 @@ ui <- fluidPage(
     br(),#line break
     'This shinyApp was made by Richard Kunert (see code on ',a('github', href='https://github.com/rikunert/choropleth'), ').',
     br(),
-    ' Licence: ',a('CC-BY-NC', href="https://creativecommons.org/licenses/by-nc/2.0/"),'.',
+    ' Licence: ',a('GPL-3.0', href="https://opensource.org/licenses/gpl-3.0.html"),'.',
     br(),
-    'Version: 0.1. December 2018.',
+    'Version: 0.2. December 2018.',
     br(),
     
     inputPanel(tags$h4('Labels'),
@@ -150,19 +151,20 @@ ui <- fluidPage(
                
                radioButtons(inputId = 'stateLabelSelect', label = 'Show state labels',
                             choices = c('None' = 'none',
+                                        'Abbreviation' = 'short',
                                         'Full name' = 'full'))
     ),
     
     inputPanel(tags$h4('State areas'),
                colourInput(inputId = 'areaHighColourSelect', label = 'High',
                            showColour = 'background',#'both',#
-                           '#008B00', palette = 'limited'),#for changing colour of areas (high)
+                           '#FF0000', palette = 'limited'),#for changing colour of areas (high)
                colourInput(inputId = 'areaMidColourSelect', label = 'Mid',
                            showColour = 'background',#'both',#
                            '#FF7F00', palette = 'limited'),#for changing colour of areas (mid)
                colourInput(inputId = 'areaLowColourSelect', label = 'Low',
                            showColour = 'background',#'both',#
-                           '#FF0000', palette = 'limited')#for changing colour of areas (low)
+                           '#008B00', palette = 'limited')#for changing colour of areas (low)
     ),
     
     inputPanel(tags$h4('Borders'),
@@ -183,6 +185,7 @@ server <- function(input, output) {
     
     rhandsontable(DF, height = 400, selectCallback = TRUE, readOnly = FALSE) %>%
       hot_col("State", readOnly = TRUE) %>%
+      hot_col("Abbr", readOnly = TRUE) %>%
       hot_col("name_cartogram", readOnly = TRUE, colWidths = 0.00001)
     
   })
@@ -226,9 +229,9 @@ server <- function(input, output) {
     # polish map
     map_publish = map +
       tm_fill(col='Colour', title=input$legendText, 
-              style='cont', palette=c(input$areaHighColourSelect,
+              style='cont', palette=c(input$areaLowColourSelect,
                                       input$areaMidColourSelect,
-                                      input$areaLowColourSelect)) +
+                                      input$areaHighColourSelect)) +
       tm_borders(col=input$borderColourSelect,
                  lwd=input$borderLineSelect) +
       tm_layout(main.title = input$titleText, 
@@ -245,6 +248,12 @@ server <- function(input, output) {
                 col='grey30',
                 print.tiny = T,
                 auto.placement = F)  
+    } else if (input$stateLabelSelect=='short'){
+      map_publish = map_publish +
+        tm_text("Abbr",
+                col='grey30',
+                print.tiny = T,
+                auto.placement = F)
     }
     
     
